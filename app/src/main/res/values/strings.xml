@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AndroidPrueba</string>
+    <string name="female">Mujer</string>
+    <string name="male">Hombre</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="age">Edad</string>
+    <string name="calculator">Calcular</string>
+    <string name="recalculate">Re-Calcular</string>
+    <string name="result">Tu Resultado</string>
+    <string name="error">Error</string>
+    <string name="title_bajo_peso">Bajo peso</string>
+    <string name="description_bajo_peso">Está por debajo de lo óptimo para tu peso y altura</string>
+
+    <string name="title_normal_peso">Normal</string>
+    <string name="description_normal_peso">Está óptimo para tu peso y altura</string>
+
+    <string name="title_sobrepeso_peso">Sobrepeso</string>
+    <string name="description_sobrepeso_peso">Está por arriba de lo óptimo para tu peso y altura</string>
+
+    <string name="title_obesidad_peso">Obesidad</string>
+    <string name="description_obesidad_peso">Está muy por arriba de lo óptimo para tu peso y altura</string>
+</resources>
