@@ -24,19 +24,19 @@ class TodoActivity : AppCompatActivity() {
     )
 
     private val tasks = mutableListOf(
-        Task("pruebaOtro", Other),
-        Task("pruebaPersonal", Personal),
-        Task("pruebaBusiness", Business)
-
+        Task("PruebaBusiness", Business),
+        Task("PruebaPersonal", Personal),
+        Task("PruebaOther", Other)
     )
 
     //recycle view necesita dos cosas, el adapter y el view folder
     private lateinit var rvCategories: RecyclerView
-    private lateinit var rvTasks: RecyclerView
-    private lateinit var tasksAdapter: TasksAdapter
-    private lateinit var fabAddTask: FloatingActionButton
     private lateinit var categoriesAdapter: CategoriesAdapter
 
+    private lateinit var rvTasks: RecyclerView
+    private lateinit var tasksAdapter: TasksAdapter
+
+    private lateinit var fabAddTask: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +52,12 @@ class TodoActivity : AppCompatActivity() {
         }
     }
 
+
     private fun showDialog() {
         val dialog = Dialog(this)
-        //enganchamos el xml
+        //enganchamos el xml layout
         dialog.setContentView(R.layout.dialog_task)
+
         val btnAddTask: Button = dialog.findViewById(R.id.btnAddTask)
         val etTask: EditText = dialog.findViewById(R.id.etTask)
         val rgCategories: RadioGroup = dialog.findViewById(R.id.rgCategories)
@@ -64,19 +66,21 @@ class TodoActivity : AppCompatActivity() {
             val currentTask = etTask.text.toString()
             if (currentTask.isNotEmpty()) {
                 val selectedId = rgCategories.checkedRadioButtonId
-                //accedemos a un radio button del radio group
+                //accedemos al id de los radio butons del grupo
                 val selectedRadioButton: RadioButton = rgCategories.findViewById(selectedId)
-                val currentCategory: TaskCategory =
-                    when (selectedRadioButton.text) {
-                        getString(R.string.todo_dialog_category_business) -> Business
-                        getString(R.string.todo_dialog_category_personal) -> Personal
-                        else -> Other
-                    }
-                tasks.add(Task(etTask.text.toString(), currentCategory))
+                val currentCategory: TaskCategory = when (selectedRadioButton.text) {
+                    getString(R.string.todo_dialog_category_business) -> Business
+                    getString(R.string.todo_dialog_category_personal) -> Personal
+                    else -> Other
+                }
+
+                tasks.add(Task(currentTask, currentCategory))
                 updateTasks()
                 dialog.hide()
             }
         }
+
+
         dialog.show()
     }
 
@@ -87,30 +91,37 @@ class TodoActivity : AppCompatActivity() {
         fabAddTask = findViewById(R.id.fabAddTask)
     }
 
+
     private fun initUI() {
-        categoriesAdapter = CategoriesAdapter(categories){}
-        //Se encarga de poner si es vertical  u horizontal:
-        rvCategories.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvCategories.adapter = categoriesAdapter
 
-        //
-        tasksAdapter = TasksAdapter(tasks){position -> onItemSelected(position)}
-        //Se pone solo this porque el que viene por defecto es el vertical
-        rvTasks.layoutManager = LinearLayoutManager(this)
-        rvTasks.adapter = tasksAdapter
+            categoriesAdapter =
+                CategoriesAdapter(categories) { position -> updateCategories(position) }
+            //se encarga de poner si es vertical u horizontal
+            rvCategories.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            rvCategories.adapter = categoriesAdapter
 
-    }
+            tasksAdapter = TasksAdapter(tasks) { position -> onItemSelected(position) }
+        //this es por defecto vertical
+            rvTasks.layoutManager = LinearLayoutManager(this)
+            rvTasks.adapter = tasksAdapter
+        }
 
-    private fun
     private fun onItemSelected(position:Int){
         tasks[position].isSelected = !tasks[position].isSelected
         updateTasks()
+    }
 
+    private fun updateCategories(position: Int){
+        categories[position].isSelected = !categories[position].isSelected
+        categoriesAdapter.notifyItemChanged(position)
+        updateTasks()
     }
 
     private fun updateTasks(){
-
+        val selectedCategories: List<TaskCategory> = categories.filter { it.isSelected }
+        val newTasks = tasks.filter { selectedCategories.contains(it.category) }
+        tasksAdapter.tasks = newTasks
         tasksAdapter.notifyDataSetChanged()
     }
 }

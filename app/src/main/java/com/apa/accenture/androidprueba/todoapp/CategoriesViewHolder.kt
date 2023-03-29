@@ -8,46 +8,43 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apa.accenture.androidprueba.R
 
 //Esta frase siempre hay que ponerlo:
-class CategoriesViewFolder(view:View): RecyclerView.ViewHolder(view) {
+class CategoriesViewHolder(view:View): RecyclerView.ViewHolder(view) {
 
-   private val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
+    private val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
     private val divider: View = view.findViewById(R.id.divider)
     private val viewContainer: CardView = view.findViewById(R.id.viewContainer)
 
-    fun render (taskCategory: TaskCategory, onItemSelected: (Int) -> Unit){
+    fun render(taskCategory: TaskCategory, onItemSelected: (Int) -> Unit) {
 
-        val color = if(taskCategory.isSelected){
+        val color = if (taskCategory.isSelected) {
             R.color.todo_background_card
-        }else{
+        } else {
             R.color.todo_background_disabled
         }
 
-        viewContainer.setCardBackgroundColor(ContextCompat.getColor(viewContainer.context,color))
-        itemView.setOnClickListener{ onItemSelected(layoutPosition)}
+        viewContainer.setCardBackgroundColor(ContextCompat.getColor(viewContainer.context, color))
 
-        when(taskCategory){
+        itemView.setOnClickListener { onItemSelected(layoutPosition) }
+
+        when (taskCategory) {
             TaskCategory.Business -> {
-                tvCategoryName.text="Negocios"
+                tvCategoryName.text = "Negocios"
                 divider.setBackgroundColor(
                     ContextCompat.getColor(divider.context, R.color.todo_business_category)
                 )
-
             }
             TaskCategory.Other -> {
-
-                tvCategoryName.text="Otros"
+                tvCategoryName.text = "Otros"
                 divider.setBackgroundColor(
                     ContextCompat.getColor(divider.context, R.color.todo_other_category)
                 )
             }
             TaskCategory.Personal -> {
-
-                tvCategoryName.text="Personal"
+                tvCategoryName.text = "Personal"
                 divider.setBackgroundColor(
                     ContextCompat.getColor(divider.context, R.color.todo_personal_category)
                 )
             }
         }
-
     }
 }
