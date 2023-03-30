@@ -110,7 +110,7 @@ class ImcCalculatorActivity : AppCompatActivity() {
     }
 
     private fun navigateToResultActivity(result:Double) {
-        val intent = Intent(this, ResultActivity::class.java)
+        val intent = Intent(this, ResultIMCActivity::class.java)
         intent.putExtra(IMC_KEY,result)
         startActivity(intent)
 
