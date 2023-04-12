@@ -108,7 +108,7 @@ class TodoActivity : AppCompatActivity() {
         }
 
     private fun onItemSelected(position:Int){
-        tasks[position].isSelected = !tasks[position].isSelected
+        tasksAdapter.tasks[position].isSelected = !tasks[position].isSelected
         updateTasks()
     }
 
